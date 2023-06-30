@@ -10,10 +10,23 @@ int main() {
         return 1;
     }
 
-    // Draw a rectangle on the image
-    // cv::Point(x, y) are the coordinates of the rectangle's top left and bottom right corners
-    // cv::Scalar(b, g, r) defines the color of the rectangle in BGR format
-    cv::rectangle(img, cv::Point(50, 50), cv::Point(200, 200), cv::Scalar(0, 0, 255), 2);
+    // Convert color space from BGR to HSV
+    cv::Mat hsv;
+    cv::cvtColor(img, hsv, cv::COLOR_BGR2HSV);
+
+    // Define range for red color
+    cv::Mat mask;
+    cv::inRange(hsv, cv::Scalar(0, 70, 50), cv::Scalar(10, 255, 255), mask);
+
+    // Find contours in the mask
+    std::vector<std::vector<cv::Point>> contours;
+    cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+
+    // Draw rectangles around each contour
+    for (const auto& contour : contours) {
+        cv::Rect rect = cv::boundingRect(contour);
+        cv::rectangle(img, rect, cv::Scalar(0, 255, 0), 2);
+    }
 
     // Display the image
     cv::namedWindow("Image with Rectangle", cv::WINDOW_NORMAL);
