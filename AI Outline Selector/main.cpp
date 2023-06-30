@@ -1,15 +1,8 @@
 #include <opencv2/opencv.hpp>
-#include <iostream>
-#include <string>
 
 int main() {
-    // Request file path from user
-    std::string filePath;
-    std::cout << "Enter the path to the image file: ";
-    std::cin >> filePath;
-
     // Load the image file
-    cv::Mat img = cv::imread(filePath);
+    cv::Mat img = cv::imread("WhatsApp Image 2023-06-22 at 8.34.55 PM.jpeg");
 
     // Check if image was loaded successfully
     if (img.empty()) {
