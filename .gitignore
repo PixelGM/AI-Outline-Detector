@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+.vs/AI Outline Selector/FileContentIndex/read.lock
+.vs/AI Outline Selector/v17/Browse.VC.db
+.vs/AI Outline Selector/v17/Browse.VC.db-shm
+.vs/AI Outline Selector/v17/Browse.VC.db-wal
+.vs/AI Outline Selector/v17/Browse.VC.opendb
+.vs/AI Outline Selector/v17/ipch/AutoPCH/113bfb124931ed9b/MAIN.ipch
