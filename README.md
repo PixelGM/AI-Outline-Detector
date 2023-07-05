@@ -1,6 +1,9 @@
 
 # Color Detector Using OpenCV and C++
 
+![image1](images/image1.png)
+![image2](images/image2.png)
+
 ## Description
 
 This is a color detection project that uses OpenCV library in C++. The program captures video from a webcam and filters out a specific color range based on HSV (Hue, Saturation, Value) values. The range of these values can be adjusted dynamically with trackbars during program execution. The current HSV range is also saved into a text file.
