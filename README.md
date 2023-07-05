@@ -2,6 +2,7 @@
 # Color Detector Using OpenCV and C++
 
 ![image1](images/image1.png)
+<br>
 ![image2](images/image2.png)
 
 ## Description
