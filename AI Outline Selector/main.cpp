@@ -1,6 +1,9 @@
 #include <opencv2/opencv.hpp>
+#include <fstream>
+#include <exception>
 
-int main() {
+int main()
+{
     cv::namedWindow("Control", cv::WINDOW_NORMAL); // Create window for control sliders
 
     int iLowH = 0;
@@ -22,17 +25,45 @@ int main() {
     cv::createTrackbar("LowV", "Control", &iLowV, 255); // Value (0 - 255)
     cv::createTrackbar("HighV", "Control", &iHighV, 255);
 
+    cv::VideoCapture cap(0); // capture the video from web cam
+
+    if (!cap.isOpened())  // if not successful, exit program
+    {
+        std::cout << "Cannot open the web cam" << std::endl;
+        return -1;
+    }
+
     while (true)
     {
-        cv::Mat img = cv::imread("WhatsApp Image 2023-06-22 at 8.34.55 PM.jpeg"); // Read the image
+        cv::Mat imgOriginal;
+
+        bool bSuccess = cap.read(imgOriginal); // read a new frame from video
+
+        if (!bSuccess) //if not successful, break loop
+        {
+            std::cout << "Cannot read a frame from video stream" << std::endl;
+            break;
+        }
+
         cv::Mat imgHSV;
-        cv::cvtColor(img, imgHSV, cv::COLOR_BGR2HSV); // Convert the captured frame from BGR to HSV
+        cv::cvtColor(imgOriginal, imgHSV, cv::COLOR_BGR2HSV); // Convert the captured frame from BGR to HSV
 
         cv::Mat imgThresholded;
         cv::inRange(imgHSV, cv::Scalar(iLowH, iLowS, iLowV), cv::Scalar(iHighH, iHighS, iHighV), imgThresholded); // Threshold the image
 
+        // Store the current HSV color range values to an external file
+        std::ofstream file;
+        file.open("HSVvalues.txt");
+        file << "LowH: " << iLowH << "\n";
+        file << "HighH: " << iHighH << "\n";
+        file << "LowS: " << iLowS << "\n";
+        file << "HighS: " << iHighS << "\n";
+        file << "LowV: " << iLowV << "\n";
+        file << "HighV: " << iHighV << "\n";
+        file.close();
+
         // Show the original image and the thresholded image
-        cv::imshow("Original", img);
+        cv::imshow("Original", imgOriginal);
         cv::imshow("Thresholded Image", imgThresholded);
 
         // Wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
